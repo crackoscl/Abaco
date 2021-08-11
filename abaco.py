@@ -1,47 +1,47 @@
-
 import os
 
 
 class Abaco:
 
     def __init__(self):
-        self.tablero = [["    | |  "] * 6 for x in range(0, 9)]
-        self.lista = list()
-        self.usuario_intentos = list()
+        self.board = []
+        self.excess_list = []
+        self.user_attempts = []
 
-    def ingresar_monto(self):
-        monto = (input('ingrese Monto:'))
-        if monto.isdigit():
-            self.usuario_intentos.append(monto)
-            montos = [100000, 10000, 1000, 100, 10, 1]
-            for i in montos:
-                sobrante = int(monto) // i
-                monto = int(monto) % i
-                self.lista.append(sobrante)
-            return monto
+    def enter_amount(self):
+        amount = (input('ingrese amount:'))
+        if amount.isdigit():
+            self.user_attempts .append(amount)
+            amounts = [100000, 10000, 1000, 100, 10, 1]
+            for i in amounts:
+                excess = int(amount) // i
+                amount = int(amount) % i
+                self.excess_list.append(excess)
+            return amount
         else:
-            return monto
+            return amount
 
-    def mostrar_tablero(self):
+    def show_board(self):
+        show_top_down = "    +-+  " * 6
         print("Bienvenido al Abaco, por favor ingrese numero del 1 al 999.999")
-        print("    +-+  " * 6)
+        print(show_top_down)
         for i in range(0, 9):
             for j in range(0, 6):
-                print(self.tablero[i][j], end='')
+                print(self.board[i][j], end='')
             print()
-        print("    +-+  " * 6)
+        print(show_top_down)
         print(str("  100.000   10.000  1.000     100       10         1"))
 
-    def ordenar_abaco(self):
+    def show_bars(self):
         for i in range(0, 9):
             for j in range(0, 6):
-                if self.lista[j] > 0:
-                    for k in range(1, self.lista[j]+1):
-                        self.tablero[-k][j] = '   xxxxx '
+                if self.excess_list[j] > 0:
+                    for k in range(1, self.excess_list[j]+1):
+                        self.board[-k][j] = '   xxxxx '
 
-    def limpiar_datos(self):
-        self.lista = []
-        self.tablero = [["    | |  "] * 6 for x in range(0, 9)]
+    def set_values(self):
+        self.excess_list = []
+        self.board = [["    | |  "] * 6 for x in range(0, 9)]
 
 
 if os.name == "posix":
@@ -53,8 +53,8 @@ if __name__ == "__main__":
     abaco = Abaco()
 
     while True:
-        abaco.limpiar_datos()
-        ingresar = abaco.ingresar_monto()
+        abaco.set_values()
+        ingresar = abaco.enter_amount()
         if ingresar == 'salir':
             break
 
@@ -63,6 +63,7 @@ if __name__ == "__main__":
 
         else:
             os.system(limpiar)
-            abaco.ordenar_abaco()
-            abaco.mostrar_tablero()
-            print('intentos', abaco.usuario_intentos)
+            abaco.show_bars()
+            abaco.show_board()
+            print('intentos', abaco.user_attempts)
+
