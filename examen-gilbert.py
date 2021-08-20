@@ -1,11 +1,13 @@
 import os
 
+from typing import List
+
 
 class Abaco:
     def __init__(self):
-        self.board = []
-        self.excess_list = []
-        self.user_attempts = []
+        self.board: List[str] = []
+        self.excess_list: List[int] = []
+        self.user_attempts: List[int] = []
 
     def enter_amount(self, amount) -> int:
         self.user_attempts.append(amount)
@@ -16,9 +18,11 @@ class Abaco:
             self.excess_list.append(excess)
         return amount
 
-    def show_board(self):
+    def show_board(self) -> None:
         show_top_down = "    +-+  " * 6
-        print("Bienvenido al Abaco, por favor ingrese numero del 1 al 999.999")
+        print("Bienvenido al Abaco, por favor ingrese \
+            numero del 1 al 999.999")
+
         print("Escriba salir para cerrar el abaco")
         print(show_top_down)
         for i in range(0, 9):
@@ -26,17 +30,18 @@ class Abaco:
                 print(self.board[i][j], end="")
             print()
         print(show_top_down)
-        print(str("  100.000   10.000  1.000     100       10         1"))
+        print(str("  100.000   10.000  1.000    \
+             100       10         1"))
 
-    def show_bars(self):
+    def show_bars(self) -> None:
         for i in range(0, 9):
             for j in range(0, 6):
                 if self.excess_list[j] > 0:
                     for k in range(1, self.excess_list[j] + 1):
                         self.board[-k][j] = "   xxxxx "
 
-    def set_values(self):
-        self.excess_list = []
+    def set_values(self) -> None:
+        self.excess_list: List[int] = []
         self.board = [["    | |  "] * 6 for x in range(0, 9)]
 
 
@@ -55,7 +60,7 @@ if __name__ == "__main__":
             if int(amount) <= 0 or int(amount) > 999999:
                 print("numero debe ser mayor a 0 y menor a 999999")
             else:
-                ingresar = abaco.enter_amount(amount)
+                ingresar = abaco.enter_amount(int(amount))
                 os.system(limpiar)
                 abaco.show_bars()
                 abaco.show_board()
